@@ -15,8 +15,11 @@ public class PseudoPrime_AssCreed {
             BigInteger bigP = new BigInteger("" + p);
             BigInteger bigA = new BigInteger("" + a);
             BigInteger ans = bigA.modPow(bigP, bigP);
-
-            if(ans.equals(bigA) && !bigP.isProbablePrime(20)) {
+            /**
+             * if bigP is not prime with certainty 25%
+             * and answer equal to A
+             */
+            if(ans.equals(bigA) && !bigP.isProbablePrime(25)) {
                 System.out.println("Yes");
             }
             else {

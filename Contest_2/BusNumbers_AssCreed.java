@@ -9,30 +9,43 @@ public class BusNumbers_AssCreed {
             busStops[i] = sc.nextInt();
         }
         Arrays.sort(busStops);
-        String s = " " + busStops[0];
+        StringBuilder sb = new StringBuilder();
+        sb.append(" " + busStops[0]);
 
         for(int i = 1; i < numBusStops; i++) {
             if(busStops[i] == busStops[i-1] + 1) {
+                /**
+                 * checking for multiple consecutive
+                 * numbers and checking the edge case
+                 */
                 if(numBusStops > i+1 && busStops[i+1] == busStops[i] + 1) {
-                    s += "-";
+                    sb.append("-");
                     i += 2;
                     while(numBusStops > i && busStops[i] == busStops[i-1] + 1) {
                         i++;
                     }
                     i--;
-                    s += busStops[i];
+                    sb.append(busStops[i]);
                 }
 
+                /**
+                 * checking for only 2
+                 * consecutive numbers
+                 */
                 else {
-                    s += " " + busStops[i];
+                    sb.append(" " + busStops[i]);
                 }
             }
 
+            /**
+             * if the numbers are not consecutive,
+             * so putting them separately
+             */
             else {
-                s += " " + busStops[i];
+                sb.append(" " + busStops[i]);
             }
         }
-        System.out.println(s);
+        System.out.println(sb.toString());
         sc.close();
     }
 }

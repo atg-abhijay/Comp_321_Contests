@@ -14,27 +14,21 @@ public class BirthdayParty_AssCreed {
             }
 
             ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+            for(int i = 0; i < numPeople; i++) {
+                vertices.add(new Vertex(i));
+            }
+
+            /**
+             * initializations and adding
+             * the edges, neighbours
+             */
             ArrayList<Edge> edges = new ArrayList<Edge>();
             for(int i = 0; i < numConn; i++) {
                 int firstVertex = sc.nextInt();
                 int secondVertex = sc.nextInt();
 
-                Vertex a = new Vertex(firstVertex);
-                Vertex b = new Vertex(secondVertex);
-
-                if(!checkVertexExists(vertices, firstVertex)) {
-                    vertices.add(a);
-                }
-                else {
-                    a = vertices.get(firstVertex);
-                }
-
-                if(!checkVertexExists(vertices, secondVertex)) {
-                    vertices.add(b);
-                }
-                else{
-                    b = vertices.get(secondVertex);
-                }
+                Vertex a = vertices.get(firstVertex);
+                Vertex b = vertices.get(secondVertex);
 
                 edges.add(new Edge(a, b));
                 a.neighbours.add(b);
@@ -45,14 +39,29 @@ public class BirthdayParty_AssCreed {
             for(Edge e: edges){
                 Vertex firstVertex = e.firstVertex;
                 Vertex secondVertex = e.secondVertex;
+
+                /**
+                 * removing an edge
+                 */
                 vertices.get(firstVertex.number).neighbours.remove(secondVertex);
                 vertices.get(secondVertex.number).neighbours.remove(firstVertex);
+
                 int stillConn = runBFS(vertices, firstVertex);
+                /**
+                 * if the number of vertices encountered
+                 * upon removing an edge is not equal to
+                 * the number of people then, the graph
+                 * has become disconnected
+                 */
                 if(stillConn != numPeople) {
                     System.out.println("Yes");
                     fine = false;
                     break;
                 }
+                /**
+                 * readding the edge before
+                 * the next iteration starts
+                 */
                 vertices.get(firstVertex.number).neighbours.add(secondVertex);
                 vertices.get(secondVertex.number).neighbours.add(firstVertex);
             }
@@ -72,6 +81,10 @@ public class BirthdayParty_AssCreed {
         return false;
     }
 
+    /**
+     * run BFS on the given graph and return
+     * the number of vertices that were encountered
+     */
     public static int runBFS(ArrayList<Vertex> vertices, Vertex sourceVertex) {
         Queue<Vertex> q = new LinkedList<Vertex>();
         q.add(sourceVertex);
@@ -88,6 +101,12 @@ public class BirthdayParty_AssCreed {
             }
             q.poll();
         }
+
+        /**
+         * setting visit status
+         * to false before next
+         * call to this function
+         */
         for(Vertex v: vertices) {
             v.visited = false;
         }
