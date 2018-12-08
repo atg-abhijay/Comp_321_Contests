@@ -11,25 +11,27 @@ public class LongestIncSubseq_AssCreed {
             for(int i = 0; i < lenSequence; i++) {
                 sequence[i] = sc.nextInt();
                 longestSeqTillHere[i] = 1;
+                includedInLIS[i] = true;
             }
 
-            int startIndex = 0;
-            int otherIndex = 0;
             int maximumValue = 0;
 
             for(int i = 1; i < lenSequence; i++) {
+                boolean worksWithNone = true;
                 for(int j = 0; j < i; j++) {
-                    if(sequence[j] < sequence[i]) {
+                    if(includedInLIS[j] && sequence[j] < sequence[i]) {
                         if(longestSeqTillHere[i] < longestSeqTillHere[j] + 1) {
                             longestSeqTillHere[i] = longestSeqTillHere[j] + 1;
                             includedInLIS[j] = true;
-                            includedInLIS[i] = true;
+                            worksWithNone = false;
                         }
                         else {
-                            includedInLIS[i] = false;
                             includedInLIS[j] = false;
                         }
                     }
+                }
+                if(worksWithNone) {
+                    includedInLIS[i] = false;
                 }
             }
 

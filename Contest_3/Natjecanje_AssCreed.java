@@ -22,25 +22,21 @@ public class Natjecanje_AssCreed {
         Collections.sort(damaged);
         Collections.sort(reserves);
 
-        while(!damaged.isEmpty()) {
-            Integer damagedKayak = damaged.get(0);
-            boolean entered = false;
-            while(!reserves.isEmpty()) {
-                Integer reserveKayak = reserves.get(0);
+        int numFixed = 0;
+        for(Integer damagedKayak: damaged) {
+            for(Integer reserveKayak: reserves) {
                 if(Math.abs(reserveKayak - damagedKayak) == 1) {
-                    damaged.remove(0);
-                    reserves.remove(0);
-                    entered = true;
+                    numFixed += 1;
+                    reserves.remove(reserveKayak);
                     break;
                 }
             }
-
-            if(!entered) {
+            if(reserves.isEmpty()) {
                 break;
             }
         }
 
-        System.out.println(damaged.size());
+        System.out.println(damaged.size() - numFixed);
         sc.close();
     }
 }
