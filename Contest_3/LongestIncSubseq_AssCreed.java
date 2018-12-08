@@ -15,41 +15,35 @@ public class LongestIncSubseq_AssCreed {
                 includedInLIS[i] = true;
             }
 
-            int maximumValue = 0;
+            int maximumValue = 1;
+            int indexPrevValid = 0;
+            int indexPrevPrevValid = 0;
 
             for(int i = 1; i < lenSequence; i++) {
-                boolean worksWithNone = true;
-                for(int j = 0; j < i; j++) {
-                    if(includedInLIS[j] && sequence[j] < sequence[i]) {
-                        if(longestSeqTillHere[i] < longestSeqTillHere[j] + 1) {
-                            longestSeqTillHere[i] = longestSeqTillHere[j] + 1;
-                            worksWithNone = false;
-                        }
+                int currentValue = sequence[i];
+                if(currentValue > sequence[indexPrevValid]) {
+                    longestSeqTillHere[i] = longestSeqTillHere[indexPrevValid] + 1;
+                    maximumValue = longestSeqTillHere[i];
+                    indexPrevPrevValid = indexPrevValid;
+                    indexPrevValid = i;
+                }
+                else {
+                    if(currentValue > sequence[indexPrevPrevValid]) {
+                        includedInLIS[indexPrevValid] = false;
+                        longestSeqTillHere[i] = longestSeqTillHere[indexPrevValid];
+                        indexPrevValid = i;
+                    }
+                    else {
+                        includedInLIS[i] = false;
                     }
                 }
-
-                if(worksWithNone) {
-                    includedInLIS[i] = false;
-                }
             }
 
-            for(int i = 0; i < lenSequence; i++) {
-                if(maximumValue < longestSeqTillHere[i]) {
-                    maximumValue = longestSeqTillHere[i];
-                }
-            }
             System.out.println(maximumValue);
-
-            Stack<Integer> validNums = new Stack<Integer>();
-            for(int i = lenSequence-1; i > -1; i--) {
-                if(longestSeqTillHere[i] == maximumValue) {
-                    validNums.push(i);
-                    maximumValue--;
+            for(int i = 0; i < lenSequence; i++) {
+                if(includedInLIS[i]) {
+                    System.out.print(i + " ");
                 }
-            }
-
-            while(!validNums.isEmpty()) {
-                System.out.print(validNums.pop() + " ");
             }
             System.out.println();
         }
