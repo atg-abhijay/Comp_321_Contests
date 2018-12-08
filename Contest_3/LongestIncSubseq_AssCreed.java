@@ -1,4 +1,7 @@
+// import java.util.ArrayList;
+// import java.util.Collections;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class LongestIncSubseq_AssCreed {
     public static void main(String[] args) {
@@ -22,7 +25,7 @@ public class LongestIncSubseq_AssCreed {
                     if(includedInLIS[j] && sequence[j] < sequence[i]) {
                         if(longestSeqTillHere[i] < longestSeqTillHere[j] + 1) {
                             longestSeqTillHere[i] = longestSeqTillHere[j] + 1;
-                            includedInLIS[j] = true;
+                            // includedInLIS[j] = true;
                             worksWithNone = false;
                         }
                         else {
@@ -42,11 +45,25 @@ public class LongestIncSubseq_AssCreed {
             }
             System.out.println(maximumValue);
 
-            for(int i = 0; i < lenSequence; i++) {
-                if(includedInLIS[i]) {
-                    System.out.print(i + " ");
+            Stack<Integer> validNums = new Stack<Integer>();
+            for(int i = lenSequence-1; i > -1; i--) {
+                if(longestSeqTillHere[i] == maximumValue) {
+                    // System.out.print(i + " ");
+                    validNums.push(i);
+                    maximumValue--;
                 }
             }
+            while(!validNums.isEmpty()) {
+                System.out.print(validNums.pop() + " ");
+            }
+            // Collections.reverse(validNums);
+            // validNums.forEach(num->System.out.print(num + " "));
+            System.out.println();
+            // for(int i = 0; i < lenSequence; i++) {
+            //     if(includedInLIS[i]) {
+            //         System.out.print(i + " ");
+            //     }
+            // }
         }
         sc.close();
     }
